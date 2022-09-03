@@ -1,0 +1,19 @@
+{
+  "name": "simple-product-crud-express",
+  "version": "1.0.0",
+  "description": "Learn CRUD Express JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raprmdn/simple-product-crud-express.git"
+  },
+  "author": "Rafi Putra Ramadhan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raprmdn/simple-product-crud-express/issues"
+  },
+  "homepage": "https://github.com/raprmdn/simple-product-crud-express#readme"
+}
