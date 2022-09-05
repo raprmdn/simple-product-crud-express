@@ -30,9 +30,14 @@ module.exports = {
         const schema = Joi.object({
             id: method === 'post' ? Joi.forbidden() : Joi.number().required(),
             name: Joi.string().required(),
-            url: Joi.string().external(async (value) => {
-                return await uniqueURL(value, data.id);
-            }).required(),
+            url: Joi.string().required().lowercase().strict()
+                .regex(/^[a-zA-Z0-9-_]+$/)
+                .external(async (value) => {
+                    return await uniqueURL(value, data.id);
+                })
+                .messages({
+                    'string.pattern.base': 'URL only allow alphanumeric, dash, and underscore',
+                }),
             description: Joi.string().allow(null, ''),
         });
 
