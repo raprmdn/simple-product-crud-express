@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database.config.js');
 const Product = require('./product.model.js');
 
@@ -7,6 +7,7 @@ const Item = sequelize.define('items', {
         type: DataTypes.BIGINT,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true
     },
     product_id: {
         type: DataTypes.BIGINT,

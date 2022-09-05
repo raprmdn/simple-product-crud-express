@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database.config.js');
 
 const Category = sequelize.define('categories', {
@@ -6,6 +6,7 @@ const Category = sequelize.define('categories', {
         type: DataTypes.BIGINT,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true
     },
     name: {
         type: DataTypes.STRING,
@@ -22,6 +23,5 @@ const Category = sequelize.define('categories', {
 }, {
     freezeTableName: true,
 });
-
 
 module.exports = Category;

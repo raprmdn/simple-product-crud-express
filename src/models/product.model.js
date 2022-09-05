@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database.config.js');
 const Category = require('./category.model.js');
 
@@ -7,6 +7,7 @@ const Product = sequelize.define('products', {
         type: DataTypes.BIGINT,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true
     },
     category_id: {
         type: DataTypes.BIGINT,
