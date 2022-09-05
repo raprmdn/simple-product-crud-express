@@ -14,6 +14,9 @@ module.exports = {
         return await Category.update(data, { where: { id: data.id }})
     },
     delete: async (url) => {
-        return await Category.destroy({ where: { url }});
+        const category = await Category.findOne({where: {url}});
+        if (!category) return false;
+
+        return await Category.destroy({ where: { id: category.id }});
     }
 }

@@ -30,9 +30,7 @@ module.exports = {
     show: async (req, res) => {
         try {
             const category = await CategoryService.show(req.params.url);
-            if (!category) {
-                return response(res, 404, false, 'Category not found');
-            }
+            if (!category) return response(res, 404, false, 'Category not found');
 
             return response(res, 200, true, 'Success get category', category);
         } catch (err) {
@@ -57,7 +55,9 @@ module.exports = {
     },
     delete: async (req, res) => {
         try {
-            await CategoryService.delete(req.params.url);
+            const result = await CategoryService.delete(req.params.url);
+            if (!result) return response(res, 404, false, 'Category not found');
+
             return response(res, 200, true, 'Success delete category');
         } catch (err) {
             console.log(err.message);
