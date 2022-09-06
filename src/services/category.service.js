@@ -25,6 +25,7 @@ const _self = module.exports = {
     delete: async (url) => {
         const category = await _self.findByURL(url);
         if (!category) throw { status: 404, message: 'Category not found' };
+        if (await category.countProducts() > 0) throw { status: 422, message: 'Cannot delete the category. Category has products.' };
 
         return category.destroy();
     }

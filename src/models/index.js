@@ -5,6 +5,8 @@ const ItemModel = require('./item.model');
 CategoryModel.hasMany(ProductModel, {
     foreignKey: 'category_id',
     as: 'products',
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
 });
 
 ProductModel.belongsTo(CategoryModel, {
@@ -15,6 +17,8 @@ ProductModel.belongsTo(CategoryModel, {
 ProductModel.hasMany(ItemModel, {
     foreignKey: 'product_id',
     as: 'items',
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
 });
 
 ItemModel.belongsTo(ProductModel, {
