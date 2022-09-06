@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const Category = require("../../models/category.model");
+const { responseValidationError } = require("../response.utils");
 
 const uniqueURL = async (value, id = null) => {
     const category = await Category.findOne({ where: { url: value }});
@@ -26,14 +27,14 @@ const uniqueURL = async (value, id = null) => {
 }
 
 module.exports = {
-    categoryValidation: (data, method = 'post') => {
+    categoryValidation: async (req, res, next) => {
         const schema = Joi.object({
-            id: method === 'post' ? Joi.forbidden() : Joi.number().required(),
+            id: req.method === 'POST' ? Joi.forbidden() : Joi.number().required(),
             name: Joi.string().required(),
             url: Joi.string().required().lowercase().strict()
                 .regex(/^[a-zA-Z0-9-_]+$/)
                 .external(async (value) => {
-                    return await uniqueURL(value, data.id);
+                    return await uniqueURL(value, req.body.id);
                 })
                 .messages({
                     'string.pattern.base': 'URL only allow alphanumeric, dash, and underscore',
@@ -41,6 +42,11 @@ module.exports = {
             description: Joi.string().allow(null, ''),
         });
 
-        return schema.validateAsync(data, { abortEarly: false });
+        try {
+            await schema.validateAsync(req.body, { abortEarly: false });
+            next();
+        } catch (err) {
+            return responseValidationError(res, err);
+        }
     }
 }
