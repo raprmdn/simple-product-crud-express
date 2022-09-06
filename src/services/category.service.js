@@ -4,6 +4,9 @@ module.exports = {
     index: async () => {
         return await Category.findAll();
     },
+    findById: async (id) => {
+        return await Category.findByPk(id);
+    },
     create: async (data) => {
         return await Category.create(data);
     },

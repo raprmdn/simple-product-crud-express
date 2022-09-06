@@ -33,6 +33,11 @@ const Product = sequelize.define('products', {
     description: {
         type: DataTypes.TEXT,
     },
+    is_featured: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
     is_published: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

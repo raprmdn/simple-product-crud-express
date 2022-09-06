@@ -1,14 +1,18 @@
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 require('dotenv').config();
 const models = require('./models');
 require('./config/database.config.js').sync();
 const routes = require('./routes');
+const helmet = require("helmet");
 
 const app = express();
 
+app.use(helmet());
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use('/api', routes);
 
