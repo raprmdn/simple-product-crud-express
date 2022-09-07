@@ -1,5 +1,6 @@
 const Product = require('../models/product.model');
 const Category = require('../models/category.model');
+const Item = require("../models/item.model");
 const CategoryService = require('./category.service');
 const slugify = require('slugify');
 
@@ -22,6 +23,9 @@ const _self = module.exports = {
             include: [{ model: Category,  as: 'category',  attributes: ['id', 'name', 'url'] }]
         });
     },
+    findById: async (id) => {
+        return await Product.findByPk(id);
+    },
     findBySlug: async (slug) => {
         return await Product.findOne({ where: { slug } });
     },
@@ -35,7 +39,10 @@ const _self = module.exports = {
     show: async (slug) => {
         return await Product.findOne({
             where: { slug },
-            include: [{ model: Category,  as: 'category',  attributes: ['id', 'name', 'url'] }]
+            include: [
+                { model: Category,  as: 'category',  attributes: ['id', 'name', 'url'] },
+                { model: Item,  as: 'items',  attributes: ['id', 'product_id', 'name', 'slug', 'price', 'stock'] }
+            ]
         });
     },
     update: async (data, slug) => {
@@ -51,6 +58,7 @@ const _self = module.exports = {
     delete: async (slug) => {
         const product = await _self.findBySlug(slug);
         if (!product) throw { status: 404, message: 'Product not found' };
+        if (await product.countItems() > 0) throw { status: 422, message: 'Cannot delete the product. This product has items.' };
 
         return await product.destroy();
     }
