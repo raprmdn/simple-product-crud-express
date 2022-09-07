@@ -61,5 +61,12 @@ const _self = module.exports = {
         if (await product.countItems() > 0) throw { status: 422, message: 'Cannot delete the product. This product has items.' };
 
         return await product.destroy();
+    },
+    addItem: async (data, slug) => {
+        const product = await _self.findBySlug(slug);
+        if (!product) throw { status: 404, message: 'Product not found' };
+
+        data.slug = slugify(data.name, { lower: true }) + '-' + Math.random().toString(36).slice(2, 7);
+        return await product.createItem(data);
     }
 }

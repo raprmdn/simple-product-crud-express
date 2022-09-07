@@ -48,5 +48,14 @@ module.exports = {
             console.log(err.message);
             return response(res, err?.status || 500, false, err.message);
         }
+    },
+    addItem: async (req, res) => {
+        try {
+            await ProductService.addItem(req.body, req.params.slug);
+            response(res, 200, true, 'Success add product item');
+        } catch (err) {
+            console.log(err.message);
+            return response(res, err?.status || 500, false, err.message);
+        }
     }
 }
