@@ -1,5 +1,6 @@
 const { categoryDocs, categorySchema } = require('../routes/docs/category.docs');
 const { productDocs, productSchema } = require('../routes/docs/product.docs');
+const { itemDocs, itemSchema } = require("../routes/docs/item.docs");
 
 const swaggerOptions = {
     openapi: "3.0.0",
@@ -50,11 +51,13 @@ const swaggerOptions = {
     paths: {
         ...categoryDocs,
         ...productDocs,
+        ...itemDocs
     },
     components: {
         schemas: {
             ...categorySchema,
             ...productSchema,
+            ...itemSchema,
             APIResponse: {
                 type: "object",
                 properties: {
