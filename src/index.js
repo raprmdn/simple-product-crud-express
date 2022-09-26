@@ -1,10 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
 const bodyParser = require('body-parser');
-require('dotenv').config();
-const models = require('./models');
-require('./config/database.config.js').sync();
 const routes = require('./routes');
 const helmet = require("helmet");
 const swaggerUI = require('swagger-ui-express');

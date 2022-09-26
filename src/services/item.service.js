@@ -1,4 +1,4 @@
-const Item = require('../models/item.model');
+const {Item} = require('../models');
 const ProductService = require('./product.service');
 const slugify = require("slugify");
 

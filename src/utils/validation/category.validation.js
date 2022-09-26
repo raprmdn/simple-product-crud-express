@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const Category = require("../../models/category.model");
+const {Category} = require("../../models");
 const { responseValidationError } = require("../response.utils");
 
 const uniqueURL = async (value, id = null) => {

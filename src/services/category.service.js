@@ -1,4 +1,4 @@
-const Category = require('../models/category.model.js');
+const {Category} = require('../models');
 
 const _self = module.exports = {
     index: async () => {

@@ -1,6 +1,4 @@
-const Product = require('../models/product.model');
-const Category = require('../models/category.model');
-const Item = require("../models/item.model");
+const {Product, Category, Item} = require('../models');
 const CategoryService = require('./category.service');
 const slugify = require('slugify');
 
