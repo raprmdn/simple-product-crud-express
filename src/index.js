@@ -3,9 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
 const bodyParser = require('body-parser');
-const routes = require('./routes');
-const helmet = require("helmet");
+const helmet = require('helmet');
 const swaggerUI = require('swagger-ui-express');
+const routes = require('./routes');
 const swaggerOptions = require('./helpers/documentation.swagger');
 
 const app = express();

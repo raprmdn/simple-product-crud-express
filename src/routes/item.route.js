@@ -1,6 +1,6 @@
 const express = require('express');
 const ItemController = require('../controllers/item.controller');
-const {itemValidation} = require("../utils/validation/item.validation");
+const { itemValidation } = require('../utils/validation/item.validation');
 
 const router = express.Router();
 

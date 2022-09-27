@@ -56,7 +56,7 @@ const create = {
                         },
                         description: {
                             type: 'string',
-                            description: 'Item description',
+                            description: 'Item description'
                         },
                         is_published: {
                             type: 'boolean',
@@ -81,13 +81,13 @@ const create = {
             }
         },
         404: {
-            description: 'Product not found',
+            description: 'Product not found'
         },
         422: {
-            description: 'Unprocessable Entity',
+            description: 'Unprocessable Entity'
         }
     }
-}
+};
 
 const show = {
     tags: ['Items'],
@@ -99,18 +99,18 @@ const show = {
             name: 'id',
             in: 'path',
             description: 'Item ID',
-            required: true,
+            required: true
         }
     ],
     responses: {
         200: {
-            description: 'Success get item',
+            description: 'Success get item'
         },
         404: {
-            description: 'Item not found',
+            description: 'Item not found'
         }
     }
-}
+};
 
 const update = {
     tags: ['Items'],
@@ -122,7 +122,7 @@ const update = {
             name: 'id',
             in: 'path',
             description: 'Item ID',
-            required: true,
+            required: true
         }
     ],
     requestBody: {
@@ -159,7 +159,7 @@ const update = {
                         },
                         description: {
                             type: 'string',
-                            description: 'Item description',
+                            description: 'Item description'
                         },
                         is_published: {
                             type: 'boolean',
@@ -174,16 +174,16 @@ const update = {
     },
     responses: {
         200: {
-            description: 'Success update item',
+            description: 'Success update item'
         },
         404: {
-            description: 'Item or Product not found',
+            description: 'Item or Product not found'
         },
         422: {
-            description: 'Unprocessable Entity',
+            description: 'Unprocessable Entity'
         }
     }
-}
+};
 
 const destroy = {
     tags: ['Items'],
@@ -195,18 +195,18 @@ const destroy = {
             name: 'id',
             in: 'path',
             description: 'Item ID',
-            required: true,
+            required: true
         }
     ],
     responses: {
         200: {
-            description: 'Success delete item',
+            description: 'Success delete item'
         },
         404: {
-            description: 'Item not found',
+            description: 'Item not found'
         }
     }
-}
+};
 
 const itemDocs = {
     '/api/items': {
@@ -218,7 +218,7 @@ const itemDocs = {
         patch: update,
         delete: destroy
     }
-}
+};
 
 const itemSchema = {
     Item: {
@@ -267,16 +267,16 @@ const itemSchema = {
             createdAt: {
                 type: 'string',
                 format: 'date-time',
-                description: 'Item created at',
+                description: 'Item created at'
             },
             updatedAt: {
                 type: 'string',
                 format: 'date-time',
-                description: 'Item updated at',
-            },
+                description: 'Item updated at'
+            }
         }
     }
-}
+};
 
 module.exports = {
     itemDocs,

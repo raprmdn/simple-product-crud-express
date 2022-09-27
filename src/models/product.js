@@ -9,18 +9,18 @@ module.exports = (sequelize, DataTypes) => {
          * This method is not a part of Sequelize lifecycle.
          * The `models/index` file will call this method automatically.
          */
-        static associate(models) {
+        static associate (models) {
             // define association here
             Product.belongsTo(models.Category, {
                 foreignKey: 'category_id',
-                as: 'category',
+                as: 'category'
             });
 
             Product.hasMany(models.Item, {
                 foreignKey: 'product_id',
                 as: 'items',
                 onDelete: 'NO ACTION',
-                onUpdate: 'NO ACTION',
+                onUpdate: 'NO ACTION'
             });
         }
     }
@@ -31,22 +31,22 @@ module.exports = (sequelize, DataTypes) => {
             reference: {
                 model: 'Model',
                 key: 'id',
-                as: 'category_id',
+                as: 'category_id'
             }
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: false
         },
         slug: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            unique: true
         },
         price: {
             type: DataTypes.DOUBLE.UNSIGNED,
             allowNull: false,
-            defaultValue: 0,
+            defaultValue: 0
         },
         description: {
             type: DataTypes.TEXT
@@ -54,17 +54,17 @@ module.exports = (sequelize, DataTypes) => {
         is_featured: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: false,
+            defaultValue: false
         },
         is_published: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: false,
-        },
+            defaultValue: false
+        }
     }, {
         sequelize,
         modelName: 'Product',
-        underscored: true,
+        underscored: true
     });
     return Product;
 };

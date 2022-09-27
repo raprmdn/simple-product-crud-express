@@ -1,6 +1,6 @@
-const {Item} = require('../models');
+const { Item } = require('../models');
 const ProductService = require('./product.service');
-const slugify = require("slugify");
+const slugify = require('slugify');
 
 const _self = module.exports = {
     index: async () => {
@@ -33,4 +33,4 @@ const _self = module.exports = {
 
         return await item.destroy();
     }
-}
+};

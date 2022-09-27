@@ -1,4 +1,4 @@
-const {Category} = require('../models');
+const { Category } = require('../models');
 
 const _self = module.exports = {
     index: async () => {
@@ -29,4 +29,4 @@ const _self = module.exports = {
 
         return category.destroy();
     }
-}
+};

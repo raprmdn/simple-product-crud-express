@@ -1,17 +1,17 @@
 const index = {
-    tags: ["Products"],
-    summary: "Get all products",
-    description: "List of all products",
+    tags: ['Products'],
+    summary: 'Get all products',
+    description: 'List of all products',
     parameters: [],
     responses: {
         200: {
-            description: "Success get products",
+            description: 'Success get products',
             content: {
-                "application/json": {
+                'application/json': {
                     schema: {
-                        type: "array",
+                        type: 'array',
                         items: {
-                            $ref: "#/components/schemas/Products",
+                            $ref: '#/components/schemas/Products'
                         }
                     }
                 }
@@ -21,45 +21,45 @@ const index = {
 };
 
 const create = {
-    tags: ["Products"],
-    summary: "Create new product",
-    description: "Create new product",
+    tags: ['Products'],
+    summary: 'Create new product',
+    description: 'Create new product',
     parameters: [],
     requestBody: {
-        description: "Create a new product",
+        description: 'Create a new product',
         content: {
-            "application/json": {
+            'application/json': {
                 schema: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                         category_id: {
-                            type: "integer",
-                            description: "Category id of product",
-                            required: true,
+                            type: 'integer',
+                            description: 'Category id of product',
+                            required: true
                         },
                         name: {
-                            type: "string",
-                            description: "Name of product",
-                            required: true,
+                            type: 'string',
+                            description: 'Name of product',
+                            required: true
                         },
                         price: {
-                            type: "integer",
-                            description: "Price of product",
-                            required: true,
+                            type: 'integer',
+                            description: 'Price of product',
+                            required: true
                         },
                         description: {
-                            type: "string",
-                            description: "Description of product",
+                            type: 'string',
+                            description: 'Description of product'
                         },
                         is_featured: {
-                            type: "boolean",
-                            description: "Is featured of product",
-                            required: true,
+                            type: 'boolean',
+                            description: 'Is featured of product',
+                            required: true
                         },
                         is_published: {
-                            type: "boolean",
-                            description: "Is published of product",
-                            required: true,
+                            type: 'boolean',
+                            description: 'Is published of product',
+                            required: true
                         }
                     }
                 }
@@ -69,99 +69,99 @@ const create = {
     },
     responses: {
         200: {
-            description: "Success create product",
+            description: 'Success create product',
             content: {
-                "application/json": {
+                'application/json': {
                     schema: {
-                        $ref: "#/components/schemas/Products",
+                        $ref: '#/components/schemas/Products'
                     }
                 }
             }
         },
         404: {
-            description: "Category not found",
+            description: 'Category not found'
         },
         422: {
-            description: "Unprocessable Entity",
+            description: 'Unprocessable Entity'
         }
     }
 };
 
 const show = {
-    tags: ["Products"],
-    summary: "Get product by slug",
-    description: "Get product by slug",
+    tags: ['Products'],
+    summary: 'Get product by slug',
+    description: 'Get product by slug',
     parameters: [
         {
-            name: "slug",
-            in: "path",
-            description: "Slug of product",
-            required: true,
+            name: 'slug',
+            in: 'path',
+            description: 'Slug of product',
+            required: true
         }
     ],
     responses: {
         200: {
-            description: "Success get product",
+            description: 'Success get product'
         },
         404: {
-            description: "Product not found",
+            description: 'Product not found'
         }
     }
 
-}
+};
 
 const update = {
-    tags: ["Products"],
-    summary: "Update product by slug",
-    description: "Update product by slug",
+    tags: ['Products'],
+    summary: 'Update product by slug',
+    description: 'Update product by slug',
     parameters: [
         {
-            name: "slug",
-            in: "path",
-            description: "Slug of product",
-            required: true,
+            name: 'slug',
+            in: 'path',
+            description: 'Slug of product',
+            required: true
         }
     ],
     requestBody: {
-        description: "Update product",
+        description: 'Update product',
         content: {
-            "application/json": {
+            'application/json': {
                 schema: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                         id: {
-                            type: "integer",
-                            description: "Id of product",
-                            required: true,
+                            type: 'integer',
+                            description: 'Id of product',
+                            required: true
                         },
                         category_id: {
-                            type: "integer",
-                            description: "Category id of product",
-                            required: true,
+                            type: 'integer',
+                            description: 'Category id of product',
+                            required: true
                         },
                         name: {
-                            type: "string",
-                            description: "Name of product",
-                            required: true,
+                            type: 'string',
+                            description: 'Name of product',
+                            required: true
                         },
                         price: {
-                            type: "integer",
-                            description: "Price of product",
-                            required: true,
+                            type: 'integer',
+                            description: 'Price of product',
+                            required: true
                         },
                         description: {
-                            type: "string",
-                            description: "Description of product",
+                            type: 'string',
+                            description: 'Description of product'
                         },
                         is_featured: {
-                            type: "boolean",
-                            description: "Is featured of product",
-                            required: true,
+                            type: 'boolean',
+                            description: 'Is featured of product',
+                            required: true
                         },
                         is_published: {
-                            type: "boolean",
-                            description: "Is published of product",
-                            required: true,
+                            type: 'boolean',
+                            description: 'Is published of product',
+                            required: true
                         }
                     }
                 }
@@ -171,86 +171,86 @@ const update = {
     },
     responses: {
         200: {
-            description: "Success update product",
+            description: 'Success update product'
         },
         404: {
-            description: "Product not found or Category not found",
+            description: 'Product not found or Category not found'
         },
         422: {
-            description: "Unprocessable Entity",
+            description: 'Unprocessable Entity'
         }
     }
-}
+};
 
 const destroy = {
-    tags: ["Products"],
-    summary: "Delete product by slug",
-    description: "Delete product by slug",
+    tags: ['Products'],
+    summary: 'Delete product by slug',
+    description: 'Delete product by slug',
     parameters: [
         {
-            name: "slug",
-            in: "path",
-            description: "Slug of product",
-            required: true,
+            name: 'slug',
+            in: 'path',
+            description: 'Slug of product',
+            required: true
         }
     ],
     responses: {
         200: {
-            description: "Success delete product",
+            description: 'Success delete product'
         },
         404: {
-            description: "Product not found",
+            description: 'Product not found'
         }
     }
-}
+};
 
 const addItem = {
-    tags: ["Products"],
-    summary: "Add item to product by slug",
-    description: "Add item to product by slug",
+    tags: ['Products'],
+    summary: 'Add item to product by slug',
+    description: 'Add item to product by slug',
     parameters: [
         {
-            name: "slug",
-            in: "path",
-            description: "Slug of product",
-            required: true,
+            name: 'slug',
+            in: 'path',
+            description: 'Slug of product',
+            required: true
         }
     ],
     requestBody: {
-        description: "Add item to product",
+        description: 'Add item to product',
         content: {
-            "application/json": {
+            'application/json': {
                 schema: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                         product_id: {
-                            type: "integer",
-                            description: "Product id of item",
-                            required: true,
+                            type: 'integer',
+                            description: 'Product id of item',
+                            required: true
                         },
                         name: {
-                            type: "string",
-                            description: "Name of item",
-                            required: true,
+                            type: 'string',
+                            description: 'Name of item',
+                            required: true
                         },
                         price: {
-                            type: "integer",
-                            description: "Price of item",
-                            required: true,
+                            type: 'integer',
+                            description: 'Price of item',
+                            required: true
                         },
                         stock: {
-                            type: "integer",
-                            description: "Stock of item",
-                            required: true,
+                            type: 'integer',
+                            description: 'Stock of item',
+                            required: true
                         },
                         description: {
-                            type: "string",
-                            description: "Description of item",
+                            type: 'string',
+                            description: 'Description of item'
                         },
                         is_published: {
-                            type: "boolean",
-                            description: "Is published of item",
-                            required: true,
+                            type: 'boolean',
+                            description: 'Is published of item',
+                            required: true
                         }
                     }
                 }
@@ -258,20 +258,20 @@ const addItem = {
         },
         required: true
     }
-}
+};
 
 const productDocs = {
-    "/api/products": {
+    '/api/products': {
         get: index,
-        post: create,
+        post: create
     },
-    "/api/products/{slug}": {
+    '/api/products/{slug}': {
         get: show,
         patch: update,
-        delete: destroy,
+        delete: destroy
     },
-    "/api/products/{slug}/add-item": {
-        post: addItem,
+    '/api/products/{slug}/add-item': {
+        post: addItem
     }
 };
 
@@ -287,47 +287,47 @@ const productSchema = {
             category_id: {
                 type: 'integer',
                 description: 'Product category id',
-                example: 2,
+                example: 2
             },
             name: {
                 type: 'string',
                 description: 'Product name',
-                example: 'The First Product',
+                example: 'The First Product'
             },
             slug: {
                 type: 'string',
                 description: 'Product slug',
-                example: 'the-first-product',
+                example: 'the-first-product'
             },
             price: {
                 type: 'integer',
                 description: 'Product price',
-                example: 250,
+                example: 250
             },
             description: {
                 type: 'string',
                 description: 'Product description',
-                example: 'The First Product description',
+                example: 'The First Product description'
             },
             is_featured: {
                 type: 'boolean',
                 description: 'Product is featured',
-                example: false,
+                example: false
             },
             is_published: {
                 type: 'boolean',
                 description: 'Product is published',
-                example: true,
+                example: true
             },
             createdAt: {
                 type: 'string',
                 format: 'date-time',
-                description: 'Product created at',
+                description: 'Product created at'
             },
             updatedAt: {
                 type: 'string',
                 format: 'date-time',
-                description: 'Product updated at',
+                description: 'Product updated at'
             },
             category: {
                 type: 'object',
@@ -340,20 +340,20 @@ const productSchema = {
                     name: {
                         type: 'string',
                         description: 'Category name',
-                        example: 'Consumables',
+                        example: 'Consumables'
                     },
                     slug: {
                         type: 'string',
                         description: 'Category slug',
-                        example: 'consume',
+                        example: 'consume'
                     }
                 }
             }
         }
     }
-}
+};
 
 module.exports = {
     productDocs,
     productSchema
-}
+};

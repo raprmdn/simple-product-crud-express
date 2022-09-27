@@ -1,24 +1,24 @@
-const {Product, Category, Item} = require('../models');
+const { Product, Category, Item } = require('../models');
 const CategoryService = require('./category.service');
 const slugify = require('slugify');
 
 const _isDuplicateSlug = async (slug, id = null) => {
     const product = await Product.findOne({ where: { slug } });
     return !!(product && product.id !== id);
-}
+};
 
 const _generateSlug = async (name, id = null) => {
-    let slug = slugify(name, { lower: true })
+    let slug = slugify(name, { lower: true });
     const isDuplicateSlug = await _isDuplicateSlug(slug, id);
     if (isDuplicateSlug) slug = `${slug}-${Date.now()}`;
 
     return slug;
-}
+};
 
 const _self = module.exports = {
     index: async () => {
         return await Product.findAll({
-            include: [{ model: Category,  as: 'category',  attributes: ['id', 'name', 'url'] }]
+            include: [{ model: Category, as: 'category', attributes: ['id', 'name', 'url'] }]
         });
     },
     findById: async (id) => {
@@ -38,8 +38,8 @@ const _self = module.exports = {
         return await Product.findOne({
             where: { slug },
             include: [
-                { model: Category,  as: 'category',  attributes: ['id', 'name', 'url'] },
-                { model: Item,  as: 'items',  attributes: ['id', 'product_id', 'name', 'slug', 'price', 'stock'] }
+                { model: Category, as: 'category', attributes: ['id', 'name', 'url'] },
+                { model: Item, as: 'items', attributes: ['id', 'product_id', 'name', 'slug', 'price', 'stock'] }
             ]
         });
     },
@@ -67,4 +67,4 @@ const _self = module.exports = {
         data.slug = slugify(data.name, { lower: true }) + '-' + Math.random().toString(36).slice(2, 7);
         return await product.createItem(data);
     }
-}
+};

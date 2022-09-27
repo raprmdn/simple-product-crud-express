@@ -1,16 +1,16 @@
 const { categoryDocs, categorySchema } = require('../routes/docs/category.docs');
 const { productDocs, productSchema } = require('../routes/docs/product.docs');
-const { itemDocs, itemSchema } = require("../routes/docs/item.docs");
+const { itemDocs, itemSchema } = require('../routes/docs/item.docs');
 
 const swaggerOptions = {
-    openapi: "3.0.0",
+    openapi: '3.0.0',
     info: {
         title: 'Express CRUD Product API',
         description: 'API Documentation for CRUD Product Express Project.',
         version: '1.0.0',
         contact: {
             email: 'raprmdn@gmail.com'
-        },
+        }
     },
     servers: [
         {
@@ -59,24 +59,24 @@ const swaggerOptions = {
             ...productSchema,
             ...itemSchema,
             APIResponse: {
-                type: "object",
+                type: 'object',
                 properties: {
                     status: {
-                        type: "integer",
+                        type: 'integer'
                     },
                     success: {
-                        type: "boolean",
+                        type: 'boolean'
                     },
                     message: {
-                        type: "string",
+                        type: 'string'
                     },
                     data: {
                         anyOf: [
                             {
-                                type: "object",
+                                type: 'object'
                             },
                             {
-                                type: "array",
+                                type: 'array'
                             }
                         ]
                     }
@@ -84,6 +84,6 @@ const swaggerOptions = {
             }
         }
     }
-}
+};
 
 module.exports = swaggerOptions;

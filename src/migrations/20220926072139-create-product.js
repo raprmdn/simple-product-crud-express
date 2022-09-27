@@ -1,6 +1,6 @@
 'use strict';
 module.exports = {
-    async up(queryInterface, Sequelize) {
+    async up (queryInterface, Sequelize) {
         await queryInterface.createTable('Products', {
             id: {
                 allowNull: false,
@@ -14,22 +14,22 @@ module.exports = {
                 reference: {
                     model: 'Model',
                     key: 'id',
-                    as: 'category_id',
+                    as: 'category_id'
                 }
             },
             name: {
                 type: Sequelize.STRING,
-                allowNull: false,
+                allowNull: false
             },
             slug: {
                 type: Sequelize.STRING,
                 allowNull: false,
-                unique: true,
+                unique: true
             },
             price: {
                 type: Sequelize.DOUBLE.UNSIGNED,
                 allowNull: false,
-                defaultValue: 0,
+                defaultValue: 0
             },
             description: {
                 type: Sequelize.TEXT
@@ -37,12 +37,12 @@ module.exports = {
             is_featured: {
                 type: Sequelize.BOOLEAN,
                 allowNull: false,
-                defaultValue: false,
+                defaultValue: false
             },
             is_published: {
                 type: Sequelize.BOOLEAN,
                 allowNull: false,
-                defaultValue: false,
+                defaultValue: false
             },
             created_at: {
                 allowNull: false,
@@ -54,7 +54,7 @@ module.exports = {
             }
         });
     },
-    async down(queryInterface, Sequelize) {
+    async down (queryInterface, Sequelize) {
         await queryInterface.dropTable('Products');
     }
 };

@@ -1,17 +1,17 @@
 const index = {
-    tags: ["Categories"],
-    summary: "Get all categories",
-    description: "List of all categories",
+    tags: ['Categories'],
+    summary: 'Get all categories',
+    description: 'List of all categories',
     parameters: [],
     responses: {
         200: {
-            description: "Success get categories",
+            description: 'Success get categories',
             content: {
-                "application/json": {
+                'application/json': {
                     schema: {
-                        type: "array",
+                        type: 'array',
                         items: {
-                            $ref: "#/components/schemas/Category",
+                            $ref: '#/components/schemas/Category'
                         }
                     }
                 }
@@ -21,35 +21,35 @@ const index = {
 };
 
 const create = {
-    tags: ["Categories"],
-    summary: "Create new category",
-    description: "Create new category",
+    tags: ['Categories'],
+    summary: 'Create new category',
+    description: 'Create new category',
     parameters: [],
     requestBody: {
-        description: "Create a new category",
+        description: 'Create a new category',
         content: {
-            "application/json": {
+            'application/json': {
                 schema: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                         name: {
-                            type: "string",
-                            description: "Name of category",
-                            example: "",
+                            type: 'string',
+                            description: 'Name of category',
+                            example: ''
                         },
                         url: {
-                            type: "string",
-                            description: "Url of category",
-                            example: "",
-                            unique: true,
+                            type: 'string',
+                            description: 'Url of category',
+                            example: '',
+                            unique: true
                         },
                         description: {
-                            type: "string",
-                            description: "Description of category",
-                            example: "",
+                            type: 'string',
+                            description: 'Description of category',
+                            example: ''
                         }
                     },
-                    required: ["name", "url"],
+                    required: ['name', 'url']
                 }
             }
         },
@@ -57,91 +57,91 @@ const create = {
     },
     responses: {
         200: {
-            description: "Success create category",
+            description: 'Success create category',
             content: {
-                "application/json": {
+                'application/json': {
                     schema: {
-                        $ref: "#/components/schemas/Category",
+                        $ref: '#/components/schemas/Category'
                     }
                 }
             }
         },
         422: {
-            description: "Unprocessable Entity. The given data was invalid.",
+            description: 'Unprocessable Entity. The given data was invalid.'
         }
     }
-}
+};
 
 const show = {
-    tags: ["Categories"],
-    summary: "Get category by slug",
-    description: "Get category by slug",
+    tags: ['Categories'],
+    summary: 'Get category by slug',
+    description: 'Get category by slug',
     parameters: [
         {
-            name: "slug",
-            in: "path",
-            description: "Slug of category",
+            name: 'slug',
+            in: 'path',
+            description: 'Slug of category',
             required: true,
-            type: "string",
-            example: "equip"
+            type: 'string',
+            example: 'equip'
         }
     ],
     responses: {
         200: {
-            description: "Success get category",
+            description: 'Success get category',
             content: {
-                "application/json": {
+                'application/json': {
                     schema: {
-                        $ref: "#/components/schemas/Category",
+                        $ref: '#/components/schemas/Category'
                     }
                 }
             }
         },
         404: {
-            description: "Category not found",
+            description: 'Category not found'
         }
     }
-}
+};
 
 const update = {
-    tags: ["Categories"],
-    summary: "Update category by slug",
-    description: "Update category by slug",
+    tags: ['Categories'],
+    summary: 'Update category by slug',
+    description: 'Update category by slug',
     parameters: [
         {
-            name: "slug",
-            in: "path",
-            description: "Slug of category",
+            name: 'slug',
+            in: 'path',
+            description: 'Slug of category',
             required: true,
-            type: "string",
-            example: "test"
+            type: 'string',
+            example: 'test'
         }
     ],
     requestBody: {
-        description: "Update category",
+        description: 'Update category',
         content: {
-            "application/json": {
+            'application/json': {
                 schema: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                         id: {
-                            type: "integer",
+                            type: 'integer',
                             required: true,
-                            example: 9,
+                            example: 9
                         },
                         name: {
-                            type: "string",
+                            type: 'string',
                             required: true,
-                            example: "Test Updated",
+                            example: 'Test Updated'
                         },
                         url: {
-                            type: "string",
+                            type: 'string',
                             required: true,
-                            example: "test",
+                            example: 'test'
                         },
                         description: {
-                            type: "string",
-                            example: "Test Category Description Updated",
+                            type: 'string',
+                            example: 'Test Category Description Updated'
                         }
                     }
                 }
@@ -150,49 +150,49 @@ const update = {
     },
     responses: {
         200: {
-            description: "Success update category",
+            description: 'Success update category'
         },
         404: {
-            description: "Category not found",
+            description: 'Category not found'
         },
         422: {
-            description: "Unprocessable Entity. The given data was invalid.",
+            description: 'Unprocessable Entity. The given data was invalid.'
         }
     }
-}
+};
 
 const destroy = {
-    tags: ["Categories"],
-    summary: "Delete category by slug",
-    description: "Delete category by slug",
+    tags: ['Categories'],
+    summary: 'Delete category by slug',
+    description: 'Delete category by slug',
     parameters: [
         {
-            name: "slug",
-            in: "path",
-            description: "Slug of category",
+            name: 'slug',
+            in: 'path',
+            description: 'Slug of category',
             required: true,
-            type: "string",
+            type: 'string'
         }
     ],
     responses: {
         200: {
-            description: "Success delete category",
+            description: 'Success delete category'
         },
         404: {
-            description: "Category not found",
+            description: 'Category not found'
         }
     }
-}
+};
 
 const categoryDocs = {
-    "/api/categories": {
+    '/api/categories': {
         get: index,
-        post: create,
+        post: create
     },
-    "/api/categories/{slug}": {
+    '/api/categories/{slug}': {
         get: show,
         patch: update,
-        delete: destroy,
+        delete: destroy
     }
 };
 
@@ -224,16 +224,16 @@ const categorySchema = {
             createdAt: {
                 type: 'string',
                 format: 'date-time',
-                description: 'Category Created At',
+                description: 'Category Created At'
             },
             updatedAt: {
                 type: 'string',
                 format: 'date-time',
-                description: 'Category Updated At',
+                description: 'Category Updated At'
             }
         }
     }
-}
+};
 
 module.exports = {
     categoryDocs,
