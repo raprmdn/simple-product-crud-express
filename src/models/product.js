@@ -51,6 +51,14 @@ module.exports = (sequelize, DataTypes) => {
         description: {
             type: DataTypes.TEXT
         },
+        full_image: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        half_image: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         is_featured: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
@@ -64,7 +72,15 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'Product',
-        underscored: true
+        underscored: true,
+        getterMethods: {
+            full_image_url () {
+                return `${process.env.APP_URL}${process.env.PORT}/${this.getDataValue('full_image')}`;
+            },
+            half_image_url () {
+                return `${process.env.APP_URL}${process.env.PORT}/${this.getDataValue('half_image')}`;
+            }
+        }
     });
     return Product;
 };
