@@ -1,48 +1,44 @@
 const ItemService = require('../services/item.service');
-const { response } = require('../utils/response.utils');
-const { removeSingleUploadedFile } = require('../helpers/removeUploadedFile.helper');
 
 module.exports = {
     index: async (req, res) => {
         try {
-            const items = await ItemService.index();
-            return response(res, 200, true, 'Success get items', items);
-        } catch (err) {
-            return response(res, 500, false, err.message);
+            const serviceResponse = await ItemService.index();
+            return res.status(serviceResponse.code).json(serviceResponse);
+        } catch (e) {
+            return res.status(e.code).json(e);
         }
     },
     create: async (req, res) => {
         try {
-            const item = await ItemService.create(req.body, req.file);
-            return response(res, 201, true, 'Success create item', item);
-        } catch (err) {
-            removeSingleUploadedFile(req.file);
-            return response(res, err?.status || 500, false, err.message);
+            const serviceResponse = await ItemService.create(req.body, req.file);
+            return res.status(serviceResponse.code).json(serviceResponse);
+        } catch (e) {
+            return res.status(e.code).json(e);
         }
     },
     show: async (req, res) => {
         try {
-            const item = await ItemService.show(req.params.id);
-            return response(res, 200, true, 'Success get item', item);
-        } catch (err) {
-            return response(res, err?.status || 500, false, err.message);
+            const serviceResponse = await ItemService.show(req.params.id);
+            return res.status(serviceResponse.code).json(serviceResponse);
+        } catch (e) {
+            return res.status(e.code).json(e);
         }
     },
     update: async (req, res) => {
         try {
-            await ItemService.update(req.body, req.params.id, req.file);
-            return response(res, 200, true, 'Success update item');
-        } catch (err) {
-            removeSingleUploadedFile(req.file);
-            return response(res, err?.status || 500, false, err.message);
+            const serviceResponse = await ItemService.update(req.body, req.params.id, req.file);
+            return res.status(serviceResponse.code).json(serviceResponse);
+        } catch (e) {
+            return res.status(e.code).json(e);
         }
     },
     delete: async (req, res) => {
         try {
-            await ItemService.delete(req.params.id);
-            return response(res, 200, true, 'Success delete item');
-        } catch (err) {
-            return response(res, err?.status || 500, false, err.message);
+            const serviceResponse = await ItemService.delete(req.params.id);
+            return res.status(serviceResponse.code).json(serviceResponse);
+        } catch (e) {
+            return res.status(e.code).json(e);
         }
     }
 };

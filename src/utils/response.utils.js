@@ -1,27 +1,38 @@
+const { StatusCodes } = require('http-status-codes');
+
 const errorsCustomMessage = (errors) => {
     return errors.details.reduce((acc, curr) => ({
         ...acc,
         [curr.path]: curr.message
     }), {});
-}
+};
 
 module.exports = {
-    response: (res, status, success, message, data) => {
+    response: (code, status, message, data) => {
         const result = {};
-        result.status = status || 200;
-        result.success = success;
+        result.code = code || StatusCodes.OK;
+        result.status = status || 'OK';
         result.message = message;
         result.data = data;
 
-        return res.status(result.status).json(result);
+        return result;
     },
-    responseValidationError: (res, errors) => {
+    responseValidationErrors: (errors) => {
         const result = {};
-        result.status = 422;
-        result.success = false;
+        result.code = StatusCodes.UNPROCESSABLE_ENTITY;
+        result.status = 'UNPROCESSABLE_ENTITY';
+        result.message = 'The given data was invalid.';
+        result.errors = errors;
+
+        return result;
+    },
+    responseJoiValidationErrors: (errors) => {
+        const result = {};
+        result.code = StatusCodes.UNPROCESSABLE_ENTITY;
+        result.status = 'UNPROCESSABLE_ENTITY';
         result.message = 'The given data was invalid.';
         result.errors = errorsCustomMessage(errors);
 
-        return res.status(result.status).json(result);
+        return result;
     }
-}
+};

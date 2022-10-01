@@ -1,6 +1,7 @@
 const Joi = require('joi');
-const { responseValidationError, response } = require('../response.utils');
+const { responseJoiValidationErrors, responseValidationErrors } = require('../response.utils');
 const { removeSingleUploadedFile } = require('../../helpers/removeUploadedFile.helper');
+const { StatusCodes: status } = require('http-status-codes');
 
 const itemSchema = {
     product_id: Joi.number().required(),
@@ -19,11 +20,11 @@ module.exports = {
         const schema = Joi.object(itemSchema);
 
         const { error } = schema.validate(req.body, { abortEarly: false });
-        if (!req.file) return response(res, 422, false, 'Icon is required');
+        if (!req.file) return res.status(status.UNPROCESSABLE_ENTITY).json(responseValidationErrors({ icon: 'The icon field is required.' }));
 
         if (error) {
             removeSingleUploadedFile(req.file);
-            return responseValidationError(res, error);
+            return res.status(status.UNPROCESSABLE_ENTITY).json(responseJoiValidationErrors(error));
         }
 
         next();
@@ -38,7 +39,7 @@ module.exports = {
         const { error } = schema.validate(req.body, { abortEarly: false });
         if (error) {
             if (req.file) removeSingleUploadedFile(req.file);
-            return responseValidationError(res, error);
+            return res.status(status.UNPROCESSABLE_ENTITY).json(responseJoiValidationErrors(error));
         }
 
         next();

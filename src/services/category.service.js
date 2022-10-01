@@ -1,32 +1,57 @@
 const { Category } = require('../models');
+const { response } = require('../utils/response.utils');
+const { StatusCodes: status } = require('http-status-codes');
 
-const _self = module.exports = {
+module.exports = {
     index: async () => {
-        return await Category.findAll();
-    },
-    findById: async (id) => {
-        return await Category.findByPk(id);
-    },
-    findByURL: async (url) => {
-        return await Category.findOne({ where: { url } });
+        try {
+            const categories = await Category.findAll();
+            return response(status.OK, 'OK', 'Success get categories', { categories });
+        } catch (e) {
+            return response(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
+        }
     },
     create: async (data) => {
-        return await Category.create(data);
+        try {
+            const category = await Category.create(data);
+            return response(status.CREATED, 'CREATED', 'Success create category', { category });
+        } catch (e) {
+            return response(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
+        }
     },
     show: async (url) => {
-        return await _self.findByURL(url);
+        try {
+            const category = await Category.findOne({ where: { url } });
+            if (!category) throw response(status.NOT_FOUND, 'NOT_FOUND', 'Category not found');
+
+            return response(status.OK, 'OK', 'Success get category', { category });
+        } catch (e) {
+            return response(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
+        }
     },
     update: async (data, url) => {
-        const category = await _self.findByURL(url);
-        if (!category) throw { status: 404, message: 'Category not found' };
+        try {
+            const category = await Category.findOne({ where: { url } });
+            if (!category) throw response(status.NOT_FOUND, 'NOT_FOUND', 'Category not found');
 
-        return await category.update(data);
+            await category.update(data);
+
+            return response(status.OK, 'OK', 'Success update category');
+        } catch (e) {
+            return response(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
+        }
     },
     delete: async (url) => {
-        const category = await _self.findByURL(url);
-        if (!category) throw { status: 404, message: 'Category not found' };
-        if (await category.countProducts() > 0) throw { status: 422, message: 'Cannot delete the category. Category has products.' };
+        try {
+            const category = await Category.findOne({ where: { url } });
+            if (!category) throw response(status.NOT_FOUND, 'NOT_FOUND', 'Category not found');
+            if (await category.countProducts() > 0) throw response(status.BAD_REQUEST, 'BAD_REQUEST', 'Category has products');
 
-        return category.destroy();
+            await category.destroy();
+
+            return response(status.OK, 'OK', 'Success delete category');
+        } catch (e) {
+            return response(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
+        }
     }
 };

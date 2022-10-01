@@ -1,7 +1,8 @@
 const multer = require('multer');
 const { extensionSupport } = require('../helpers/extensions.helper');
 const fs = require('fs');
-const { response } = require('../utils/response.utils');
+const { responseValidationErrors } = require('../utils/response.utils');
+const { StatusCodes: status } = require('http-status-codes');
 
 const upload = (path) => multer({
     storage: multer.diskStorage({
@@ -16,33 +17,43 @@ const upload = (path) => multer({
         }
     }),
     fileFilter: (req, file, cb) => {
-        if (!extensionSupport(file.mimetype) || !file) {
+        if (!extensionSupport(file.mimetype)) {
             cb(new Error('File format is not supported'), false);
+        } else {
+            cb(null, true);
         }
-
-        cb(null, true);
     },
     limits: { fileSize: 2000000 }
 });
 
+const uploadProductImg = upload('products').fields([
+    { name: 'full_image', maxCount: 1 },
+    { name: 'half_image', maxCount: 1 }
+]);
+
+const uploadItemImg = upload('items').single('icon');
+
 module.exports = {
-    uploadProductImage: (req, res, next) => {
-        upload('products').fields([
-            { name: 'full_image', maxCount: 1 },
-            { name: 'half_image', maxCount: 1 }
-            // eslint-disable-next-line consistent-return
-        ])(req, res, (err) => {
-            if (err instanceof multer.MulterError) return response(res, 422, false, err.message);
-            if (err) return response(res, 422, false, err.message);
+    uploadProductImage: async (req, res, next) => {
+        // eslint-disable-next-line consistent-return
+        uploadProductImg(req, res, (err) => {
+            if (err instanceof multer.MulterError) {
+                return res.status(status.UNPROCESSABLE_ENTITY).json(responseValidationErrors(err.message));
+            } else if (err) {
+                return res.status(status.UNPROCESSABLE_ENTITY).json(responseValidationErrors(err.message));
+            }
 
             next();
         });
     },
     uploadItemImage: (req, res, next) => {
         // eslint-disable-next-line consistent-return
-        upload('items').single('icon')(req, res, (err) => {
-            if (err instanceof multer.MulterError) return response(res, 422, false, err.message);
-            if (err) return response(res, 422, false, err.message);
+        uploadItemImg(req, res, (err) => {
+            if (err instanceof multer.MulterError) {
+                return res.status(status.UNPROCESSABLE_ENTITY).json(responseValidationErrors(err.message));
+            } else if (err) {
+                return res.status(status.UNPROCESSABLE_ENTITY).json(responseValidationErrors(err.message));
+            }
 
             next();
         });

@@ -1,6 +1,7 @@
 const Joi = require('joi');
-const { responseValidationError, response } = require('../response.utils');
+const { responseJoiValidationErrors, responseValidationErrors } = require('../response.utils');
 const { removeFieldsUploadedFile } = require('../../helpers/removeUploadedFile.helper');
+const { StatusCodes: status } = require('http-status-codes');
 
 const productSchema = {
     category_id: Joi.number().required(),
@@ -19,14 +20,19 @@ module.exports = {
         const schema = Joi.object(productSchema);
 
         if (!req.files.full_image || !req.files.half_image) {
+            const errors = {};
+            if (!req.files.full_image) errors.full_image = 'Full image is required';
+            if (!req.files.half_image) errors.half_image = 'Half image is required';
             removeFieldsUploadedFile(req.files);
-            return response(res, 422, false, 'Full image and half image is required');
+            return res.status(status.UNPROCESSABLE_ENTITY).json(
+                responseValidationErrors(errors)
+            );
         }
 
         const { error } = schema.validate(req.body, { abortEarly: false });
         if (error) {
             removeFieldsUploadedFile(req.files);
-            return responseValidationError(res, error);
+            return res.status(status.UNPROCESSABLE_ENTITY).json(responseJoiValidationErrors(error));
         }
 
         next();
@@ -41,7 +47,7 @@ module.exports = {
         const { error } = schema.validate(req.body, { abortEarly: false });
         if (error) {
             if (req.files) removeFieldsUploadedFile(req.files);
-            return responseValidationError(res, error);
+            return res.status(status.UNPROCESSABLE_ENTITY).json(responseJoiValidationErrors(error));
         }
 
         next();

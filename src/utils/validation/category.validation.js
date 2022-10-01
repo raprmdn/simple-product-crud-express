@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const { Category } = require('../../models');
-const { responseValidationError } = require('../response.utils');
+const { responseJoiValidationErrors } = require('../response.utils');
+const { StatusCodes: status } = require('http-status-codes');
 
 const uniqueURL = async (value, id = null) => {
     const category = await Category.findOne({ where: { url: value } });
@@ -45,7 +46,9 @@ module.exports = {
             await schema.validateAsync(req.body, { abortEarly: false });
             next();
         } catch (err) {
-            return responseValidationError(res, err);
+            return res.status(status.UNPROCESSABLE_ENTITY).json(
+                responseJoiValidationErrors(err)
+            );
         }
     }
 };
