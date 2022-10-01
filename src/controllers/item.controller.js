@@ -1,5 +1,6 @@
 const ItemService = require('../services/item.service');
 const { response } = require('../utils/response.utils');
+const { removeSingleUploadedFile } = require('../helpers/removeUploadedFile.helper');
 
 module.exports = {
     index: async (req, res) => {
@@ -12,9 +13,10 @@ module.exports = {
     },
     create: async (req, res) => {
         try {
-            const item = await ItemService.create(req.body);
+            const item = await ItemService.create(req.body, req.file);
             return response(res, 201, true, 'Success create item', item);
         } catch (err) {
+            removeSingleUploadedFile(req.file);
             return response(res, err?.status || 500, false, err.message);
         }
     },
@@ -28,9 +30,10 @@ module.exports = {
     },
     update: async (req, res) => {
         try {
-            await ItemService.update(req.body, req.params.id);
+            await ItemService.update(req.body, req.params.id, req.file);
             return response(res, 200, true, 'Success update item');
         } catch (err) {
+            removeSingleUploadedFile(req.file);
             return response(res, err?.status || 500, false, err.message);
         }
     },

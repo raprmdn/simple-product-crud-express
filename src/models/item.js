@@ -48,6 +48,14 @@ module.exports = (sequelize, DataTypes) => {
         description: {
             type: DataTypes.TEXT
         },
+        option: {
+            type: DataTypes.TEXT,
+            allowNull: true
+        },
+        icon: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         is_published: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
@@ -56,7 +64,12 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'Item',
-        underscored: true
+        underscored: true,
+        getterMethods: {
+            icon_url () {
+                return this.icon ? `${process.env.APP_URL}${process.env.PORT}/${this.icon}` : null;
+            }
+        }
     });
     return Item;
 };

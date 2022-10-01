@@ -54,12 +54,23 @@ const _self = module.exports = {
             where: { slug },
             include: [
                 { model: Category, as: 'category', attributes: ['id', 'name', 'url'] },
-                { model: Item, as: 'items', attributes: ['id', 'product_id', 'name', 'slug', 'price', 'stock'] }
-            ]
+                {
+                    model: Item,
+                    as: 'items',
+                    attributes: [
+                        'id', 'product_id', 'name', 'price', 'stock', 'option', 'icon', 'created_at'
+                    ]
+                }
+            ],
+            order: [[{ model: Item, as: 'items' }, 'created_at', 'ASC']]
         });
         if (!product) throw { status: 404, message: 'Product not found' };
 
         _wrappingProductImage(product);
+        product.items.map(item => {
+            item.icon = { path: item.icon, url: item.icon_url };
+            return item;
+        });
 
         return product;
     },
@@ -97,11 +108,13 @@ const _self = module.exports = {
 
         return await product.destroy();
     },
-    addItem: async (data, slug) => {
+    addItem: async (data, slug, icon) => {
         const product = await _self.findBySlug(slug);
         if (!product) throw { status: 404, message: 'Product not found' };
 
+        data.icon = replacePathImage(icon.path);
         data.slug = slugify(data.name, { lower: true }) + '-' + Math.random().toString(36).slice(2, 7);
+
         return await product.createItem(data);
     }
 };

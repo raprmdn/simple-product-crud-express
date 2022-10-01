@@ -37,5 +37,14 @@ module.exports = {
 
             next();
         });
+    },
+    uploadItemImage: (req, res, next) => {
+        // eslint-disable-next-line consistent-return
+        upload('items').single('icon')(req, res, (err) => {
+            if (err instanceof multer.MulterError) return response(res, 422, false, err.message);
+            if (err) return response(res, 422, false, err.message);
+
+            next();
+        });
     }
 };

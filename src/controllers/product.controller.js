@@ -1,6 +1,6 @@
 const ProductService = require('../services/product.service');
 const { response } = require('../utils/response.utils');
-const { removeFieldsUploadedFile } = require('../helpers/removeUploadedFile.helper');
+const { removeFieldsUploadedFile, removeSingleUploadedFile } = require('../helpers/removeUploadedFile.helper');
 
 module.exports = {
     index: async (req, res) => {
@@ -47,9 +47,10 @@ module.exports = {
     },
     addItem: async (req, res) => {
         try {
-            await ProductService.addItem(req.body, req.params.slug);
+            await ProductService.addItem(req.body, req.params.slug, req.file);
             return response(res, 200, true, 'Success add product item');
         } catch (err) {
+            removeSingleUploadedFile(req.file);
             return response(res, err?.status || 500, false, err.message);
         }
     }

@@ -8,5 +8,8 @@ module.exports = {
                 fs.unlinkSync(file.path);
             });
         });
+    },
+    removeSingleUploadedFile: (uploadedFile) => {
+        fs.unlinkSync(uploadedFile.path);
     }
 };
