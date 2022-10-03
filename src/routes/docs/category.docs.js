@@ -336,11 +336,11 @@ const categorySchema = {
                 type: 'string',
                 description: 'Category Description'
             },
-            createdAt: {
+            created_at: {
                 type: 'string',
                 format: 'date-time'
             },
-            updatedAt: {
+            updated_at: {
                 type: 'string',
                 format: 'date-time'
             }
