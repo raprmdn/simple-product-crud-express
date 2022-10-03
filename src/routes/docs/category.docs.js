@@ -78,7 +78,7 @@ const create = {
         required: true
     },
     responses: {
-        200: {
+        201: {
             description: 'Success create category',
             content: {
                 'application/json': {
@@ -87,11 +87,11 @@ const create = {
                         properties: {
                             code: {
                                 type: 'integer',
-                                example: 200
+                                example: 201
                             },
                             status: {
                                 type: 'string',
-                                example: 'OK'
+                                example: 'CREATED'
                             },
                             message: {
                                 type: 'string',
