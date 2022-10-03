@@ -53,25 +53,22 @@ const create = {
             'application/json': {
                 schema: {
                     type: 'object',
+                    required: ['name', 'url'],
                     properties: {
                         name: {
                             type: 'string',
-                            description: 'Name of category',
-                            example: ''
+                            description: 'Name of category'
                         },
                         url: {
                             type: 'string',
                             description: 'Url of category',
-                            example: '',
                             unique: true
                         },
                         description: {
                             type: 'string',
-                            description: 'Description of category',
-                            example: ''
+                            description: 'Description of category'
                         }
-                    },
-                    required: ['name', 'url']
+                    }
                 }
             }
         },
@@ -100,11 +97,8 @@ const create = {
                             data: {
                                 type: 'object',
                                 properties: {
-                                    categories: {
-                                        type: 'array',
-                                        items: {
-                                            $ref: '#/components/schemas/Category'
-                                        }
+                                    category: {
+                                        $ref: '#/components/schemas/Category'
                                     }
                                 }
                             }
@@ -213,18 +207,14 @@ const update = {
             'application/json': {
                 schema: {
                     type: 'object',
+                    required: ['name', 'url'],
                     properties: {
-                        id: {
-                            type: 'integer',
-                            required: true
-                        },
                         name: {
-                            type: 'string',
-                            required: true
+                            type: 'string'
                         },
                         url: {
                             type: 'string',
-                            required: true
+                            unique: true
                         },
                         description: {
                             type: 'string'
@@ -232,7 +222,8 @@ const update = {
                     }
                 }
             }
-        }
+        },
+        required: true
     },
     responses: {
         200: {
