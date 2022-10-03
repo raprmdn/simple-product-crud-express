@@ -9,9 +9,31 @@ const index = {
             content: {
                 'application/json': {
                     schema: {
-                        type: 'array',
-                        items: {
-                            $ref: '#/components/schemas/Category'
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 200
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'OK'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success get categories'
+                            },
+                            data: {
+                                type: 'object',
+                                properties: {
+                                    categories: {
+                                        type: 'array',
+                                        items: {
+                                            $ref: '#/components/schemas/Category'
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -61,13 +83,62 @@ const create = {
             content: {
                 'application/json': {
                     schema: {
-                        $ref: '#/components/schemas/Category'
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 200
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'OK'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success create category'
+                            },
+                            data: {
+                                type: 'object',
+                                properties: {
+                                    categories: {
+                                        type: 'array',
+                                        items: {
+                                            $ref: '#/components/schemas/Category'
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         422: {
-            description: 'Unprocessable Entity. The given data was invalid.'
+            description: 'Unprocessable Entity. The given data was invalid.',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 422
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'UNPROCESSABLE_ENTITY'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'The given data was invalid.'
+                            },
+                            errors: {
+                                type: 'object'
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 };
@@ -92,13 +163,32 @@ const show = {
             content: {
                 'application/json': {
                     schema: {
-                        $ref: '#/components/schemas/Category'
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 200
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'OK'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success get category'
+                            },
+                            data: {
+                                type: 'object',
+                                properties: {
+                                    category: {
+                                        $ref: '#/components/schemas/Category'
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
-        },
-        404: {
-            description: 'Category not found'
         }
     }
 };
@@ -126,22 +216,18 @@ const update = {
                     properties: {
                         id: {
                             type: 'integer',
-                            required: true,
-                            example: 9
+                            required: true
                         },
                         name: {
                             type: 'string',
-                            required: true,
-                            example: 'Test Updated'
+                            required: true
                         },
                         url: {
                             type: 'string',
-                            required: true,
-                            example: 'test'
+                            required: true
                         },
                         description: {
-                            type: 'string',
-                            example: 'Test Category Description Updated'
+                            type: 'string'
                         }
                     }
                 }
@@ -150,13 +236,28 @@ const update = {
     },
     responses: {
         200: {
-            description: 'Success update category'
-        },
-        404: {
-            description: 'Category not found'
-        },
-        422: {
-            description: 'Unprocessable Entity. The given data was invalid.'
+            description: 'Success create category',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 200
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'OK'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success update category'
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 };
@@ -176,10 +277,28 @@ const destroy = {
     ],
     responses: {
         200: {
-            description: 'Success delete category'
-        },
-        404: {
-            description: 'Category not found'
+            description: 'Success create category',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 200
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'OK'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success delete category'
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 };
@@ -202,34 +321,28 @@ const categorySchema = {
         properties: {
             id: {
                 type: 'integer',
-                description: 'Category ID',
-                example: 1
+                description: 'Category ID'
             },
             name: {
                 type: 'string',
-                description: 'Category Name',
-                example: 'Equipment'
+                description: 'Category Name'
             },
             url: {
                 type: 'string',
                 description: 'Category URL',
-                unique: true,
-                example: 'equip'
+                unique: true
             },
             description: {
                 type: 'string',
-                description: 'Category Description',
-                example: 'Equipment category products'
+                description: 'Category Description'
             },
             createdAt: {
                 type: 'string',
-                format: 'date-time',
-                description: 'Category Created At'
+                format: 'date-time'
             },
             updatedAt: {
                 type: 'string',
-                format: 'date-time',
-                description: 'Category Updated At'
+                format: 'date-time'
             }
         }
     }
