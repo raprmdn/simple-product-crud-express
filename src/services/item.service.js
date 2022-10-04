@@ -10,6 +10,21 @@ const _wrappingIconItem = (item) => {
     item.icon = { url: item.icon_url, path: item.icon };
 };
 
+const _wrappingCreateItem = (item) => {
+    return {
+        id: item.id,
+        product_id: item.product_id,
+        name: item.name,
+        price: item.price,
+        stock: item.stock,
+        description: item.description ?? null,
+        option: item.option,
+        icon: { url: item.icon_url, path: item.icon },
+        is_published: item.is_published,
+        created_at: item.created_at
+    };
+};
+
 module.exports = {
     index: async () => {
         try {
@@ -35,9 +50,10 @@ module.exports = {
             data.icon = replacePathImage(icon.path);
             data.slug = slugify(data.name, { lower: true }) + '-' + Math.random().toString(36).slice(2, 7);
 
-            await Item.create(data);
+            const itemCreated = await Item.create(data);
+            const item = _wrappingCreateItem(itemCreated);
 
-            return response(status.CREATED, 'CREATED', 'Success create item');
+            return response(status.CREATED, 'CREATED', 'Success create item', { item });
         } catch (e) {
             removeSingleUploadedFile(icon);
             throw response(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);

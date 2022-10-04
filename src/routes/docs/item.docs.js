@@ -6,13 +6,35 @@ const index = {
     parameters: [],
     responses: {
         200: {
-            description: 'Success get items',
+            description: 'Success get all items',
             content: {
                 'application/json': {
                     schema: {
-                        type: 'array',
-                        items: {
-                            $ref: '#/components/schemas/Item'
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 200
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'OK'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success get all items'
+                            },
+                            data: {
+                                type: 'object',
+                                properties: {
+                                    items: {
+                                        type: 'array',
+                                        items: {
+                                            $ref: '#/components/schemas/Item'
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -30,38 +52,41 @@ const create = {
     requestBody: {
         description: 'Create item',
         content: {
-            'application/json': {
+            'multipart/form-data': {
                 schema: {
                     type: 'object',
+                    required: [
+                        'product_id',
+                        'name',
+                        'price',
+                        'stock',
+                        'is_published',
+                        'icon'
+                    ],
                     properties: {
                         product_id: {
-                            type: 'integer',
-                            description: 'Product ID',
-                            required: true
+                            type: 'integer'
                         },
                         name: {
-                            type: 'string',
-                            description: 'Item name',
-                            required: true
+                            type: 'string'
                         },
                         price: {
-                            type: 'integer',
-                            description: 'Item price',
-                            required: true
+                            type: 'integer'
                         },
                         stock: {
-                            type: 'integer',
-                            description: 'Item stock',
-                            required: true
+                            type: 'integer'
                         },
                         description: {
-                            type: 'string',
-                            description: 'Item description'
+                            type: 'string'
+                        },
+                        option: {
+                            type: 'string'
                         },
                         is_published: {
-                            type: 'boolean',
-                            description: 'Item is published',
-                            required: true
+                            type: 'boolean'
+                        },
+                        icon: {
+                            type: 'file'
                         }
                     }
                 }
@@ -70,21 +95,37 @@ const create = {
         required: true
     },
     responses: {
-        200: {
+        201: {
             description: 'Success create item',
             content: {
                 'application/json': {
                     schema: {
-                        $ref: '#/components/schemas/Item'
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 201
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'CREATED'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success create item'
+                            },
+                            data: {
+                                type: 'object',
+                                properties: {
+                                    product: {
+                                        $ref: '#/components/schemas/Item'
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
-        },
-        404: {
-            description: 'Product not found'
-        },
-        422: {
-            description: 'Unprocessable Entity'
         }
     }
 };
@@ -104,10 +145,36 @@ const show = {
     ],
     responses: {
         200: {
-            description: 'Success get item'
-        },
-        404: {
-            description: 'Item not found'
+            description: 'Success get item',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 200
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'OK'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success get item'
+                            },
+                            data: {
+                                type: 'object',
+                                properties: {
+                                    item: {
+                                        $ref: '#/components/schemas/Item'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 };
@@ -128,43 +195,44 @@ const update = {
     requestBody: {
         description: 'Update item',
         content: {
-            'application/json': {
+            'multipart/form-data': {
                 schema: {
                     type: 'object',
+                    required: [
+                        'id',
+                        'product_id',
+                        'name',
+                        'price',
+                        'stock',
+                        'is_published'
+                    ],
                     properties: {
                         id: {
-                            type: 'integer',
-                            description: 'Item ID',
-                            required: true
+                            type: 'integer'
                         },
                         product_id: {
-                            type: 'integer',
-                            description: 'Product ID',
-                            required: true
+                            type: 'integer'
                         },
                         name: {
-                            type: 'string',
-                            description: 'Item name',
-                            required: true
+                            type: 'string'
                         },
                         price: {
-                            type: 'integer',
-                            description: 'Item price',
-                            required: true
+                            type: 'integer'
                         },
                         stock: {
-                            type: 'integer',
-                            description: 'Item stock',
-                            required: true
+                            type: 'integer'
                         },
                         description: {
-                            type: 'string',
-                            description: 'Item description'
+                            type: 'string'
+                        },
+                        option: {
+                            type: 'string'
                         },
                         is_published: {
-                            type: 'boolean',
-                            description: 'Item is published',
-                            required: true
+                            type: 'boolean'
+                        },
+                        icon: {
+                            type: 'file'
                         }
                     }
                 }
@@ -174,13 +242,28 @@ const update = {
     },
     responses: {
         200: {
-            description: 'Success update item'
-        },
-        404: {
-            description: 'Item or Product not found'
-        },
-        422: {
-            description: 'Unprocessable Entity'
+            description: 'Success update item',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 200
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'OK'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success update item'
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 };
@@ -200,10 +283,28 @@ const destroy = {
     ],
     responses: {
         200: {
-            description: 'Success delete item'
-        },
-        404: {
-            description: 'Item not found'
+            description: 'Success update item',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 200
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'OK'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success delete item'
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 };
@@ -226,53 +327,52 @@ const itemSchema = {
         properties: {
             id: {
                 type: 'integer',
-                description: 'Item ID',
-                example: 1
+                description: 'Item ID'
             },
             product_id: {
                 type: 'integer',
-                description: 'Product ID',
-                example: 2
+                description: 'Product ID'
             },
             name: {
                 type: 'string',
-                description: 'Item name',
-                example: 'First Item'
-            },
-            slug: {
-                type: 'string',
-                description: 'Item slug',
-                example: 'first-item'
+                description: 'Item name'
             },
             price: {
                 type: 'integer',
-                description: 'Item price',
-                example: 30
+                description: 'Item price'
             },
             stock: {
                 type: 'integer',
-                description: 'Item stock',
-                example: 1000
+                description: 'Item stock'
             },
             description: {
                 type: 'string',
-                description: 'Item description',
-                example: 'Item Description'
+                description: 'Item description'
+            },
+            option: {
+                type: 'string',
+                description: 'Item option'
+            },
+            icon: {
+                type: 'object',
+                properties: {
+                    url: {
+                        type: 'string',
+                        description: 'Item icon url'
+                    },
+                    path: {
+                        type: 'string',
+                        description: 'Item icon path'
+                    }
+                }
             },
             is_published: {
                 type: 'boolean',
-                description: 'Item is published',
-                example: true
+                description: 'Item is published'
             },
-            createdAt: {
+            created_at: {
                 type: 'string',
-                format: 'date-time',
-                description: 'Item created at'
-            },
-            updatedAt: {
-                type: 'string',
-                format: 'date-time',
-                description: 'Item updated at'
+                format: 'date-time'
             }
         }
     }
