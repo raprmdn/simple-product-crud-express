@@ -5,13 +5,35 @@ const index = {
     parameters: [],
     responses: {
         200: {
-            description: 'Success get products',
+            description: 'Success get all products',
             content: {
                 'application/json': {
                     schema: {
-                        type: 'array',
-                        items: {
-                            $ref: '#/components/schemas/Products'
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 200
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'OK'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success get all products'
+                            },
+                            data: {
+                                type: 'object',
+                                properties: {
+                                    products: {
+                                        type: 'array',
+                                        items: {
+                                            $ref: '#/components/definitions/ProductWithCategory'
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -28,24 +50,29 @@ const create = {
     requestBody: {
         description: 'Create a new product',
         content: {
-            'application/json': {
+            'multipart/form-data': {
                 schema: {
                     type: 'object',
+                    required: [
+                        'category_id',
+                        'name',
+                        'price',
+                        'is_published',
+                        'full_image',
+                        'half_image'
+                    ],
                     properties: {
                         category_id: {
                             type: 'integer',
-                            description: 'Category id of product',
-                            required: true
+                            description: 'Category id of product'
                         },
                         name: {
                             type: 'string',
-                            description: 'Name of product',
-                            required: true
+                            description: 'Name of product'
                         },
                         price: {
                             type: 'integer',
-                            description: 'Price of product',
-                            required: true
+                            description: 'Price of product'
                         },
                         description: {
                             type: 'string',
@@ -53,13 +80,19 @@ const create = {
                         },
                         is_featured: {
                             type: 'boolean',
-                            description: 'Is featured of product',
-                            required: true
+                            description: 'Is featured of product'
                         },
                         is_published: {
                             type: 'boolean',
-                            description: 'Is published of product',
-                            required: true
+                            description: 'Is published of product'
+                        },
+                        full_image: {
+                            type: 'file',
+                            description: 'Full image of product'
+                        },
+                        half_image: {
+                            type: 'file',
+                            description: 'Half image of product'
                         }
                     }
                 }
@@ -68,21 +101,37 @@ const create = {
         required: true
     },
     responses: {
-        200: {
+        201: {
             description: 'Success create product',
             content: {
                 'application/json': {
                     schema: {
-                        $ref: '#/components/schemas/Products'
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 201
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'CREATED'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success create product'
+                            },
+                            data: {
+                                type: 'object',
+                                properties: {
+                                    product: {
+                                        $ref: '#/components/schemas/Product'
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
-        },
-        404: {
-            description: 'Category not found'
-        },
-        422: {
-            description: 'Unprocessable Entity'
         }
     }
 };
@@ -101,10 +150,36 @@ const show = {
     ],
     responses: {
         200: {
-            description: 'Success get product'
-        },
-        404: {
-            description: 'Product not found'
+            description: 'Success get product',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 200
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'OK'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success get product'
+                            },
+                            data: {
+                                type: 'object',
+                                properties: {
+                                    product: {
+                                        $ref: '#/components/definitions/ProductWithCategoryAndItems'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -125,29 +200,32 @@ const update = {
     requestBody: {
         description: 'Update product',
         content: {
-            'application/json': {
+            'multipart/form-data': {
                 schema: {
                     type: 'object',
+                    required: [
+                        'id',
+                        'category_id',
+                        'name',
+                        'price',
+                        'is_published'
+                    ],
                     properties: {
                         id: {
                             type: 'integer',
-                            description: 'Id of product',
-                            required: true
+                            description: 'Id of product'
                         },
                         category_id: {
                             type: 'integer',
-                            description: 'Category id of product',
-                            required: true
+                            description: 'Category id of product'
                         },
                         name: {
                             type: 'string',
-                            description: 'Name of product',
-                            required: true
+                            description: 'Name of product'
                         },
                         price: {
                             type: 'integer',
-                            description: 'Price of product',
-                            required: true
+                            description: 'Price of product'
                         },
                         description: {
                             type: 'string',
@@ -155,13 +233,19 @@ const update = {
                         },
                         is_featured: {
                             type: 'boolean',
-                            description: 'Is featured of product',
-                            required: true
+                            description: 'Is featured of product'
                         },
                         is_published: {
                             type: 'boolean',
-                            description: 'Is published of product',
-                            required: true
+                            description: 'Is published of product'
+                        },
+                        full_image: {
+                            type: 'file',
+                            description: 'Full image of product'
+                        },
+                        half_image: {
+                            type: 'file',
+                            description: 'Half image of product'
                         }
                     }
                 }
@@ -171,13 +255,28 @@ const update = {
     },
     responses: {
         200: {
-            description: 'Success update product'
-        },
-        404: {
-            description: 'Product not found or Category not found'
-        },
-        422: {
-            description: 'Unprocessable Entity'
+            description: 'Success update product',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 200
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'OK'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success update product'
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 };
@@ -196,10 +295,28 @@ const destroy = {
     ],
     responses: {
         200: {
-            description: 'Success delete product'
-        },
-        404: {
-            description: 'Product not found'
+            description: 'Success delete product',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 200
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'OK'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success delete product'
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 };
@@ -219,44 +336,81 @@ const addItem = {
     requestBody: {
         description: 'Add item to product',
         content: {
-            'application/json': {
+            'multipart/form-data': {
                 schema: {
                     type: 'object',
+                    required: [
+                        'product_id',
+                        'name',
+                        'price',
+                        'stock',
+                        'is_published',
+                        'icon'
+                    ],
                     properties: {
                         product_id: {
                             type: 'integer',
-                            description: 'Product id of item',
-                            required: true
+                            description: 'Product id of item'
                         },
                         name: {
                             type: 'string',
-                            description: 'Name of item',
-                            required: true
+                            description: 'Name of product'
                         },
                         price: {
                             type: 'integer',
-                            description: 'Price of item',
-                            required: true
+                            description: 'Price of product'
                         },
                         stock: {
                             type: 'integer',
-                            description: 'Stock of item',
-                            required: true
+                            description: 'Stock of product'
                         },
                         description: {
                             type: 'string',
-                            description: 'Description of item'
+                            description: 'Description of product'
+                        },
+                        option: {
+                            type: 'string',
+                            description: 'Option of product'
                         },
                         is_published: {
                             type: 'boolean',
-                            description: 'Is published of item',
-                            required: true
+                            description: 'Is published of product'
+                        },
+                        icon: {
+                            type: 'file',
+                            description: 'Icon of product'
                         }
                     }
                 }
             }
         },
         required: true
+    },
+    responses: {
+        200: {
+            description: 'Success create item',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            code: {
+                                type: 'integer',
+                                example: 201
+                            },
+                            status: {
+                                type: 'string',
+                                example: 'CREATED'
+                            },
+                            message: {
+                                type: 'string',
+                                example: 'Success create item'
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 };
 
@@ -276,84 +430,169 @@ const productDocs = {
 };
 
 const productSchema = {
-    Products: {
+    Product: {
         type: 'object',
         properties: {
             id: {
                 type: 'integer',
-                description: 'Product ID',
-                example: 1
+                description: 'Product ID'
             },
             category_id: {
                 type: 'integer',
-                description: 'Product category id',
-                example: 2
+                description: 'Product category id'
             },
             name: {
                 type: 'string',
-                description: 'Product name',
-                example: 'The First Product'
+                description: 'Product name'
             },
             slug: {
                 type: 'string',
-                description: 'Product slug',
-                example: 'the-first-product'
+                description: 'Product slug'
             },
             price: {
                 type: 'integer',
-                description: 'Product price',
-                example: 250
+                description: 'Product price'
             },
             description: {
                 type: 'string',
-                description: 'Product description',
-                example: 'The First Product description'
+                description: 'Product description'
+            },
+            full_image: {
+                type: 'object',
+                properties: {
+                    path: {
+                        type: 'string',
+                        description: 'Product full image path'
+                    },
+                    url: {
+                        type: 'string',
+                        description: 'Product full image url'
+                    }
+                }
+            },
+            half_image: {
+                type: 'object',
+                properties: {
+                    path: {
+                        type: 'string',
+                        description: 'Product half image path'
+                    },
+                    url: {
+                        type: 'string',
+                        description: 'Product half image url'
+                    }
+                }
             },
             is_featured: {
                 type: 'boolean',
-                description: 'Product is featured',
-                example: false
+                description: 'Product is featured'
             },
             is_published: {
                 type: 'boolean',
-                description: 'Product is published',
-                example: true
+                description: 'Product is published'
             },
-            createdAt: {
+            created_at: {
                 type: 'string',
-                format: 'date-time',
-                description: 'Product created at'
+                format: 'date-time'
             },
-            updatedAt: {
+            updated_at: {
                 type: 'string',
-                format: 'date-time',
-                description: 'Product updated at'
-            },
-            category: {
-                type: 'object',
-                properties: {
-                    id: {
-                        type: 'integer',
-                        description: 'Category ID',
-                        example: 2
-                    },
-                    name: {
-                        type: 'string',
-                        description: 'Category name',
-                        example: 'Consumables'
-                    },
-                    slug: {
-                        type: 'string',
-                        description: 'Category slug',
-                        example: 'consume'
-                    }
-                }
+                format: 'date-time'
             }
         }
     }
 };
 
+const productDefinitions = {
+    IncludeCategory: {
+        type: 'object',
+        properties: {
+            category: {
+                type: 'object',
+                properties: {
+                    id: {
+                        type: 'integer'
+                    },
+                    name: {
+                        type: 'string'
+                    },
+                    url: {
+                        type: 'string'
+                    }
+                }
+            }
+        }
+    },
+    ProductWithCategory: {
+        allOf: [
+            {
+                $ref: '#/components/schemas/Product'
+            },
+            {
+                $ref: '#/components/definitions/IncludeCategory'
+            }
+        ]
+    },
+    ProductWithCategoryAndItems: {
+        allOf: [
+            {
+                $ref: '#/components/schemas/Product'
+            },
+            {
+                $ref: '#/components/definitions/IncludeCategory'
+            },
+            {
+                type: 'object',
+                properties: {
+                    items: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: {
+                                    type: 'integer'
+                                },
+                                product_id: {
+                                    type: 'integer'
+                                },
+                                name: {
+                                    type: 'string'
+                                },
+                                price: {
+                                    type: 'integer'
+                                },
+                                stock: {
+                                    type: 'integer'
+                                },
+                                option: {
+                                    type: 'string'
+                                },
+                                icon: {
+                                    type: 'object',
+                                    properties: {
+                                        path: {
+                                            type: 'string'
+                                        },
+                                        url: {
+                                            type: 'string'
+                                        }
+                                    }
+                                },
+                                created_at: {
+                                    type: 'string',
+                                    format: 'date-time'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    }
+};
+
 module.exports = {
     productDocs,
-    productSchema
+    productSchema,
+    productDefinitions
 };

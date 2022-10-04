@@ -1,5 +1,5 @@
 const { categoryDocs, categorySchema } = require('../routes/docs/category.docs');
-const { productDocs, productSchema } = require('../routes/docs/product.docs');
+const { productDocs, productSchema, productDefinitions } = require('../routes/docs/product.docs');
 const { itemDocs, itemSchema } = require('../routes/docs/item.docs');
 
 const swaggerOptions = {
@@ -61,27 +61,20 @@ const swaggerOptions = {
             APIResponse: {
                 type: 'object',
                 properties: {
-                    status: {
+                    code: {
                         type: 'integer'
                     },
-                    success: {
-                        type: 'boolean'
+                    status: {
+                        type: 'string'
                     },
                     message: {
                         type: 'string'
-                    },
-                    data: {
-                        anyOf: [
-                            {
-                                type: 'object'
-                            },
-                            {
-                                type: 'array'
-                            }
-                        ]
                     }
                 }
             }
+        },
+        definitions: {
+            ...productDefinitions
         }
     }
 };

@@ -24,6 +24,29 @@ const _wrappingProductImage = (product) => {
     product.half_image = { path: product.half_image, url: product.half_image_url };
 };
 
+const _createProductWrapper = (product) => {
+    return {
+        id: product.id,
+        category_id: product.category_id,
+        name: product.name,
+        slug: product.slug,
+        price: product.price,
+        description: product.description,
+        full_image: {
+            path: product.full_image,
+            url: product.full_image_url
+        },
+        half_image: {
+            path: product.half_image,
+            url: product.half_image_url
+        },
+        is_featured: product.is_featured,
+        is_published: product.is_published,
+        created_at: product.created_at,
+        updated_at: product.updated_at
+    };
+};
+
 module.exports = {
     index: async () => {
         try {
@@ -49,7 +72,8 @@ module.exports = {
             data.half_image = replacePathImage(image.half_image[0].path);
             data.slug = await _generateSlug(data.name);
 
-            const product = await Product.create(data);
+            const result = await Product.create(data);
+            const product = _createProductWrapper(result);
 
             return response(status.CREATED, 'CREATED', 'Success create product', { product });
         } catch (e) {
